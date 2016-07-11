@@ -17,7 +17,8 @@ function Drone(minHealthPoints, maxHealthPoints, minDamagePoints, maxDamagePoint
   this.maxPoints = maxHealthPoints;
   this.minDamage = minDamagePoints;
   this.maxDamage = maxDamagePoints;
-  this.healthPoints = RNG.randomRange(minHealthPoints, minHealthPoints);
+  this.evasionChance = RNG.randomRange(0, 10);
+  this.healthPoints = RNG.randomRange(minHealthPoints, maxHealthPoints);
 }
 
 Drone.prototype = new Robot();
@@ -28,7 +29,8 @@ function Bipedal(minHealthPoints, maxHealthPoints, minDamagePoints, maxDamagePoi
   this.maxPoints = maxHealthPoints;
   this.minDamage = minDamagePoints;
   this.maxDamage = maxDamagePoints;
-  this.healthPoints = RNG.randomRange(minHealthPoints, minHealthPoints);
+  this.evasionChance = RNG.randomRange(0, 10);
+  this.healthPoints = RNG.randomRange(minHealthPoints, maxHealthPoints);
 }
 
 Drone.prototype = new Robot();
@@ -39,7 +41,8 @@ function ATV(minHealthPoints, maxHealthPoints, minDamagePoints, maxDamagePoints)
   this.maxPoints = maxHealthPoints;
   this.minDamage = minDamagePoints;
   this.maxDamage = maxDamagePoints;
-  this.healthPoints = RNG.randomRange(minHealthPoints, minHealthPoints);
+  this.evasionChance = RNG.randomRange(0, 10);
+  this.healthPoints = RNG.randomRange(minHealthPoints, maxHealthPoints);
 }
 
 Drone.prototype = new Robot();

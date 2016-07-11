@@ -65,7 +65,7 @@ $attack.click(function() {
 
 // function d20Random should take no args and return a value between 1 and 20 randomly
 function d20Random(){
-  var d20RandNumber = Math.floor(Math.random() * (30 - 1 + 1) + 1);
+  var d20RandNumber = Math.floor(Math.random() * (20 - 1 + 1) + 1);
   return d20RandNumber;
 }
 //function random range should take a min and max range and return a radon value in that range
@@ -78,37 +78,77 @@ module.exports = {d20Random, randomRange};
 },{}],3:[function(require,module,exports){
 "use strict";
 
+let $ = require("jquery");
+
+let d20Random = require("./randomNumbers.js").d20Random;
+
+let randomRange = require("./randomNumbers.js").randomRange
+
 let specificRobotArray = require("./specificRobots").specificRobotArray;
 
 function robotFight(robot1Array, robot2Array) {
   let robot1Name = robot1Array[0];
-  let robot1Type = robot1Array[1];
   let robot2Name = robot2Array[0];
+
+  let robot1Type = robot1Array[1];
   let robot2Type = robot2Array[1];
 
-  console.log("robot1name", robot1Name);
-  console.log("robot1type", robot1Type);
-  console.log("robot2name", robot2Name);
-  console.log("robot2type", robot2Type);
+  let builtRobot1 = null;
+  let builtRobot2 = null;
 
   for (var x in specificRobotArray) {
     if(robot1Type === specificRobotArray[x].name) {
-    console.log("CHOSEN robot 1", specificRobotArray[x].name);
+    builtRobot1 = specificRobotArray[x];
       }
     }
 
   for (var y in specificRobotArray) {
     if(robot2Type === specificRobotArray[y].name) {
-    console.log("CHOSEN robot 2", specificRobotArray[y].name);
-    console.log("getting robot 2 attack val", specificRobotArray[y]);
+    builtRobot2 = specificRobotArray[y];
       }
     }
-    
+
+    console.log("HEALTH ROBOT 1", builtRobot1.healthPoints)
+    console.log("HEALTH ROBOT 2", builtRobot2.healthPoints)
+    console.log("DAMAGE ROBOT 1", builtRobot1.minDamage)
+    console.log("DAMAGE ROBOT 2", builtRobot2.minDamage)
+
+     $("#output").append(`${robot1Name} Starting Health: ${builtRobot1.healthPoints}`);
+      $("#output").append("----");
+      $("#output").append(`${robot2Name} Starting Health: ${builtRobot2.healthPoints}`);
+
+
+    var intervalID = window.setInterval(myCallback, 1500);
+
+    function myCallback() {
+
+      let robot1Damage = randomRange(builtRobot1.minDamage, builtRobot1.maxDamage);
+
+       let robot2Damage = randomRange(builtRobot2.minDamage, builtRobot2.maxDamage);
+
+      console.log("robot1Damage", robot1Damage)
+      console.log("robot2Damage", robot2Damage)
+
+      let diceRoll = d20Random();
+
+      console.log("diceRoll", diceRoll)
+     
+    }
+
+    if (builtRobot2.healthPoints <= 0 || builtRobot1.healthPoints <= 0) {
+      window.clearInterval(intervalID)
+    };
+
+    // if (builtRobot1.healthPoints >= builtRobot2.healthPoints) {
+
+    // } else {
+
+    // }
 
 }
 
 module.exports = {robotFight};
-},{"./specificRobots":5}],4:[function(require,module,exports){
+},{"./randomNumbers.js":2,"./specificRobots":5,"jquery":6}],4:[function(require,module,exports){
 "use strict";
 
 var RNG = require("./randomNumbers.js");
@@ -128,7 +168,8 @@ function Drone(minHealthPoints, maxHealthPoints, minDamagePoints, maxDamagePoint
   this.maxPoints = maxHealthPoints;
   this.minDamage = minDamagePoints;
   this.maxDamage = maxDamagePoints;
-  this.healthPoints = RNG.randomRange(minHealthPoints, minHealthPoints);
+  this.evasionChance = RNG.randomRange(0, 10);
+  this.healthPoints = RNG.randomRange(minHealthPoints, maxHealthPoints);
 }
 
 Drone.prototype = new Robot();
@@ -139,7 +180,8 @@ function Bipedal(minHealthPoints, maxHealthPoints, minDamagePoints, maxDamagePoi
   this.maxPoints = maxHealthPoints;
   this.minDamage = minDamagePoints;
   this.maxDamage = maxDamagePoints;
-  this.healthPoints = RNG.randomRange(minHealthPoints, minHealthPoints);
+  this.evasionChance = RNG.randomRange(0, 10);
+  this.healthPoints = RNG.randomRange(minHealthPoints, maxHealthPoints);
 }
 
 Drone.prototype = new Robot();
@@ -150,7 +192,8 @@ function ATV(minHealthPoints, maxHealthPoints, minDamagePoints, maxDamagePoints)
   this.maxPoints = maxHealthPoints;
   this.minDamage = minDamagePoints;
   this.maxDamage = maxDamagePoints;
-  this.healthPoints = RNG.randomRange(minHealthPoints, minHealthPoints);
+  this.evasionChance = RNG.randomRange(0, 10);
+  this.healthPoints = RNG.randomRange(minHealthPoints, maxHealthPoints);
 }
 
 Drone.prototype = new Robot();
@@ -173,17 +216,15 @@ let ATV = robotTypesArray[2];
 
 //
 
-
-console.log("array", robotTypesArray);
-console.log("Drone", robotTypesArray[0]);
-console.log("Bipedal", robotTypesArray[1]);
-console.log("ATV", robotTypesArray[2]);
+// console.log("array", robotTypesArray);
+// console.log("Drone", robotTypesArray[0]);
+// console.log("Bipedal", robotTypesArray[1]);
+// console.log("ATV", robotTypesArray[2]);
 
 //specific robots//
 function Drone01() {
     this.name = "Drone01";
-    this.special = null;
-    this.attack = null;
+    this.attack = "Flamethrower";
     // this.image = ""
 }
 Drone01.prototype = new Drone(50, 80, 4, 8);
@@ -192,40 +233,35 @@ console.log("drone01", Drone01)
 
 function Drone02() {
     this.name = "Drone02";
-    this.special = null;
-    this.attack = null;
+    this.attack = "Lasers";
     // this.image = ""
 }
 Drone02.prototype = new Drone(80, 90, 2, 3);
 
 function Bipedal01() {
     this.name = "Bipedal01";
-    this.special = null;
-    this.attack = null;
+    this.attack = "Missiles";
     // this.image = ""
 }
 Bipedal01.prototype = new Bipedal(30, 80, 3, 7);
 
 function Bipedal02() {
     this.name = "Bipedal02";
-    this.special = null;
-    this.attack = null;
+    this.attack = "Spinning Saw";
     // this.image = ""
 }
 Bipedal02.prototype = new Bipedal(40, 60, 8, 9);
 
 function ATV01() {
     this.name = "ATV01";
-    this.special = null;
-    this.attack = null;
+    this.attack = "Banana Peels";
     // this.image = ""
 }
 ATV01.prototype = new ATV(30, 80, 3, 7);
 
 function ATV02() {
     this.name = "ATV02";
-    this.special = null;
-    this.attack = null;
+    this.attack = "Acid Showers";
     // this.image = ""
 }
 ATV02.prototype = new ATV(40, 60, 8, 9);
@@ -239,12 +275,12 @@ let atv02 = new ATV02();
 
 console.log("drone01 !!!", drone01);
 
-console.log("Drone01", Drone01);
-console.log("Drone02", Drone02);
-console.log("Bipedal01", Bipedal01);
-console.log("Bipedal02", Bipedal02);
-console.log("ATV01", ATV01);
-console.log("ATV01", ATV02);
+// console.log("Drone01", Drone01);
+// console.log("Drone02", Drone02);
+// console.log("Bipedal01", Bipedal01);
+// console.log("Bipedal02", Bipedal02);
+// console.log("ATV01", ATV01);
+// console.log("ATV01", ATV02);
 
 let specificRobotArray = [drone01, drone02, bipedal01, bipedal02, atv01, atv02];
 
