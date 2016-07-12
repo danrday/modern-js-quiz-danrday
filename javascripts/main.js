@@ -44,6 +44,8 @@ $attack.click(function() {
   }
   else {
 
+    $("#robotMaker").hide();
+
     let robot1Name = $robot1.val();
     let robot1Type = $typeRobot1.val();
     let robot2Name = $robot2.val();
