@@ -5,39 +5,25 @@ let robotFight = require("./robotFight").robotFight;
 let $ = require('jquery'); 
 let specificRobots = require("./specificRobots");
 let robotTypes = require("./robotTypes");
+
 let $robot1 = $("#robot1");
 let $robot2 = $("#robot2");
+
 let $typeRobot1 = $("#typeRobot1");
 let $typeRobot2 = $("#typeRobot2");
+
 let $makeRobot1 = $("#makeRobot1");
 let $makeRobot2 = $("#makeRobot2");
+
 let $attack = $("#attack");
+
 let robot1Array = null;
 let robot2Array = null;
 
-$("#pickDoor").hide();
-
 //initializer
-$makeRobot1.click(function() {
-  console.log($typeRobot1.val())
-  if ($robot1.val() === "") {
-    alert("Enter a robot name");
-  } 
-  if ($typeRobot1.val() === null) {
-     alert("Enter a robot type");
-  }
-});
-$makeRobot2.click(function() {
-  console.log($typeRobot2.val())
-  if ($robot2.val() === "") {
-    alert("Enter a robot name");
-  } 
-  if ($robot2.val() === "") {
-     alert("Enter a robot type");
-  }
-});
+
 $attack.click(function() {
-  if ($robot1.val() === "" || $typeRobot1.val() === null || $robot2.val() === "" || $robot2.val() === "") {
+  if ($robot1.val() === "" || $typeRobot1.val() === null || $robot2.val() === "" || $typeRobot2.val() === null) {
     alert("Please fill in all fields")
   }
   else {
@@ -53,112 +39,27 @@ $attack.click(function() {
     robot2Array = [robot2Name, robot2Type];
 
     robotFight(robot1Array, robot2Array);
+
   }
-})
-
-//testing moving stuff from robotFight to main.js
-
-let builtRobot1 = null;
-let builtRobot2 = null;
-
-function robotFight(robot1Array, robot2Array) {
-  let robot1Name = robot1Array[0];
-  let robot2Name = robot2Array[0];
-  let robot1Type = robot1Array[1];
-  let robot2Type = robot2Array[1];
-
-  for (var x in specificRobotArray) {
-    if(robot1Type === specificRobotArray[x].name) {
-    builtRobot1 = specificRobotArray[x];
-      }
-    }
-
-  for (var y in specificRobotArray) {
-    if(robot2Type === specificRobotArray[y].name) {
-    builtRobot2 = specificRobotArray[y];
-      }
-    }
-}
-
-function printInitialStats() {
-  //prints robot names and starting health
-
-    $("#output").append(`<div class="healthUpdate">${robot1Name}(${builtRobot1.name})'s Starting Health: ${builtRobot1.healthPoints} ---- ${robot2Name}(${builtRobot2.name})'s Starting Health: ${builtRobot2.healthPoints}</div>`);
-
-    $("#output").append(`<div class="healthUpdate">${robot1Name} Damage Chance: ${builtRobot1.minDamage} pts / ${builtRobot1.maxDamage} pts ---- ${robot2Name} Damage Chance: ${builtRobot2.minDamage} pts / ${builtRobot2.maxDamage} pts</div>`);
-
-}
-
-let counter = 0;
-
-function doorClick() {
-
-    let $door1 = $("#door1"); 
-    let $door2 = $("#door2"); 
-    let $door3 = $("#door3"); 
-
-      $door1.click(function() {
-          doorClicked = 1;
-          extraDamage(diceRoll);
-        });
-      $door2.click(function() {
-          doorClicked = 2;
-          extraDamage(diceRoll);
-        });
-      $door3.click(function() {
-          doorClicked = 3;
-          extraDamage(diceRoll);
-        });
-
-}
-
-function extraDamage() {
-      $("#pickDoor").hide()
-      let $output = $("#output");
-
-      if (oneInThree === doorClicked) {
-
-        $output.prepend(`<div class="player1">`);
-        $output.prepend(`<p class="player1">You picked right! You did an extra damage of ${diceRoll} points.</p>`);
-
-      //takes away health from robot2
-      builtRobot2.healthPoints -= diceRoll;
-
-      $output.prepend(`<p>Robot 1 Health: ${builtRobot1.healthPoints} pts. Robot 2 Health: ${builtRobot2.healthPoints} pts. </p>`);
-
-      $output.prepend(`</div>`);
-
-      } else {
-        doorClicked === null;
-        $output.prepend(`<div class="player1">`);
-        $output.prepend(`<p>Sorry, the right door # was ${oneInThree}</p>`);
-        $output.prepend(`</div>`);
-      }
-    };
-
-
-
-
+});
 
 
 },{"./robotFight":3,"./robotTypes":4,"./specificRobots":5,"jquery":6}],2:[function(require,module,exports){
 "use strict";
 
-function d3Random(){
-  var d3RandNumber = Math.floor(Math.random() * (3 - 1 + 1) + 1);
-  return d3RandNumber;
-}
+let d3Random = () => 
+  Math.floor(Math.random() * (3 - 1 + 1) + 1);
+
 
 // function d20Random should take no args and return a value between 1 and 20 randomly
-function d20Random(){
-  var d20RandNumber = Math.floor(Math.random() * (20 - 1 + 1) + 1);
-  return d20RandNumber;
-}
+let d20Random = () => 
+  Math.floor(Math.random() * (20 - 1 + 1) + 1);
+
+
 //function random range should take a min and max range and return a radon value in that range
-function randomRange(min, max){
-  var rangeRandNumber = Math.floor(Math.random() * (max - min + 1) + min);
-  return rangeRandNumber;
-}
+let randomRange = (min, max) => 
+  Math.floor(Math.random() * (max - min + 1) + min);
+
 
 module.exports = {d20Random, randomRange, d3Random};
 },{}],3:[function(require,module,exports){
@@ -166,23 +67,32 @@ module.exports = {d20Random, randomRange, d3Random};
 
 let $ = require("jquery");
 
+$("#pickDoor").hide();
+
 let d20Random = require("./randomNumbers.js").d20Random;
+
 let d3Random = require("./randomNumbers.js").d3Random;
-let randomRange = require("./randomNumbers.js").randomRange
+
+let randomRange = require("./randomNumbers.js").randomRange;
+
 let specificRobotArray = require("./specificRobots").specificRobotArray;
 
 let doorClicked = null;
+
 let diceRoll = null;
+
 let oneInThree = null;
-let secondCounter = 10;
-let builtRobot1 = null;
+
+ let secondCounter = 10;
+
+ let builtRobot1 = null;
 let builtRobot2 = null;
 
 let counter = 0;
 
     let $door1 = $("#door1"); 
-    let $door2 = $("#door2"); 
-    let $door3 = $("#door3"); 
+      let $door2 = $("#door2"); 
+      let $door3 = $("#door3"); 
 
       $door1.click(function() {
           doorClicked = 1;
@@ -198,14 +108,13 @@ let counter = 0;
         });
 
    function extraDamage() {
-      $("#pickDoor").hide()
+      $("#pickDoor").hide();
       let $output = $("#output");
 
       if (oneInThree === doorClicked) {
 
         $output.prepend(`<div class="player1">`);
         $output.prepend(`<p class="player1">You picked right! You did an extra damage of ${diceRoll} points.</p>`);
-
       //takes away health from robot2
       builtRobot2.healthPoints -= diceRoll;
 
@@ -214,12 +123,17 @@ let counter = 0;
       $output.prepend(`</div>`);
 
       } else {
-        doorClicked === null;
+
+        doorClicked = null;
         $output.prepend(`<div class="player1">`);
         $output.prepend(`<p>Sorry, the right door # was ${oneInThree}</p>`);
         $output.prepend(`</div>`);
+        
       }
-    };
+    }
+
+
+
 
 function robotFight(robot1Array, robot2Array) {
   let robot1Name = robot1Array[0];
@@ -241,12 +155,11 @@ function robotFight(robot1Array, robot2Array) {
 
 //prints robot names and starting health
 
-    $("#output").append(`<div class="healthUpdate">${robot1Name}(${builtRobot1.name})'s Starting Health: ${builtRobot1.healthPoints} ---- ${robot2Name}(${builtRobot2.name})'s Starting Health: ${builtRobot2.healthPoints}</div>`);
+     $("#output").append(`<div class="healthUpdate">${robot1Name}(${builtRobot1.name})'s Starting Health: ${builtRobot1.healthPoints} ---- ${robot2Name}(${builtRobot2.name})'s Starting Health: ${builtRobot2.healthPoints}</div>`);
 
-    $("#output").append(`<div class="healthUpdate">${robot1Name} Damage Chance: ${builtRobot1.minDamage} pts / ${builtRobot1.maxDamage} pts ---- ${robot2Name} Damage Chance: ${builtRobot2.minDamage} pts / ${builtRobot2.maxDamage} pts</div>`);
+     $("#output").append(`<div class="healthUpdate">${robot1Name} Damage Chance: ${builtRobot1.minDamage} pts / ${builtRobot1.maxDamage} pts ---- ${robot2Name} Damage Chance: ${builtRobot2.minDamage} pts / ${builtRobot2.maxDamage} pts</div>`);
       
     var intervalID = window.setInterval(myCallback, 8000);
-
     var timerInterval = window.setInterval(myTimer, 800);
 
     function myTimer() {
@@ -277,11 +190,10 @@ function robotFight(robot1Array, robot2Array) {
       window.clearInterval(timerInterval);
       $("#output").prepend("GAME OVER!");
       if (builtRobot1.healthPoints <= 0) {
-         $("#output").prepend(`<div id="winner">${builtRobot2.name} WON with its ${builtRobot1.attack}!!</div>`);
+         $("#output").prepend(`<div id="winner">${builtRobot2.name} WON!</div>`);
       } else {
-         $("#output").prepend(`<div id="winner">${builtRobot1.name} WON with its ${builtRobot1.attack}!!</div>`);
+         $("#output").prepend(`<div id="winner">${builtRobot1.name} WON!</div>`);
       }
-    
     }
 
     function myCallback() {
@@ -289,56 +201,56 @@ function robotFight(robot1Array, robot2Array) {
         determineWinner();
       } else {
 
-        secondCounter = 10;
+      secondCounter = 10;
 
-        let robot1Damage = randomRange(builtRobot1.minDamage, builtRobot1.maxDamage);
-        let robot2Damage = randomRange(builtRobot2.minDamage, builtRobot2.maxDamage);
+      let robot1Damage = randomRange(builtRobot1.minDamage, builtRobot1.maxDamage);
+      let robot2Damage = randomRange(builtRobot2.minDamage, builtRobot2.maxDamage);
 
-        let $output = $("#output");
-        diceRoll = d20Random();
+      let $output = $("#output");
+      diceRoll = d20Random();
 
-        oneInThree = d3Random();
+      oneInThree = d3Random();
 
-        counter += 1;
-        let doorNotPicked = false;
-
-        if (counter % 2 !== 0) {
-
-         $("#pickDoor").toggle()
+      counter += 1;
+      let doorNotPicked = false;
       
-        $output.prepend(`<p class="yourTurn">Your turn. You did ${robot1Damage} points worth of damage.</p>`);
+      if (counter % 2 !== 0) {
 
-        //takes away health from robot2
-        builtRobot2.healthPoints -= robot1Damage;
+       $("#pickDoor").toggle();
+    
+      $output.prepend(`<p class="yourTurn">Your turn. You did ${robot1Damage} points worth of damage.</p>`);
 
-        $('#healthDiv').html(`<p class="healthUpdate">${robot1Name}(${builtRobot1.name})'s Health: ${builtRobot1.healthPoints} pts. ${robot2Name}(${builtRobot2.name})'s Health: ${builtRobot2.healthPoints} pts. </p>`);
+      //takes away health from robot2
+      builtRobot2.healthPoints -= robot1Damage;
 
-        $output.prepend(`<p class="player1">Pick a door to get your bonus damage points of ${diceRoll} points.</p>`);
-       
-        } else {
+      $('#healthDiv').html(`<p class="healthUpdate">${robot1Name}(${builtRobot1.name})'s Health: ${builtRobot1.healthPoints} pts. ${robot2Name}(${builtRobot2.name})'s Health: ${builtRobot2.healthPoints} pts. </p>`);
 
-          $output.prepend(`<p class="player2">${builtRobot2.name}'s turn. ${builtRobot2.name} did ${robot2Damage} points worth of damage.</p>`);
+      $output.prepend(`<p class="player1">Pick a door to get your bonus damage points of ${diceRoll} points.</p>`);
 
-          //takes away health from robot2
-          builtRobot1.healthPoints -= robot2Damage;
+      } else {
 
-          $('#healthDiv').html(`<p class="healthUpdate">${robot1Name}(${builtRobot1.name})'s Health: ${builtRobot1.healthPoints} pts. ${robot2Name}(${builtRobot2.name})'s Health: ${builtRobot2.healthPoints} pts. </p>`);
+      $output.prepend(`<p class="player2">${builtRobot2.name}'s turn. ${builtRobot2.name} did ${robot2Damage} points worth of damage.</p>`);
 
-          let oneInThree = d3Random();
+      //takes away health from robot2
+      builtRobot1.healthPoints -= robot2Damage;
 
-          if(oneInThree === 1) {
-            $output.prepend(`<p class = "player2">${builtRobot2.name}Picked the right door. ${builtRobot2.name} did ${diceRoll} points worth of damage.</p>`);
-            //takes away health from robot2
+      $('#healthDiv').html(`<p class="healthUpdate">${robot1Name}(${builtRobot1.name})'s Health: ${builtRobot1.healthPoints} pts. ${robot2Name}(${builtRobot2.name})'s Health: ${builtRobot2.healthPoints} pts. </p>`);
 
-            builtRobot1.healthPoints -= diceRoll;
+      let oneInThree = d3Random();
 
-            $('#healthDiv').html(`<p class="healthUpdate">${robot1Name}(${builtRobot1.name})'s Health: ${builtRobot1.healthPoints} pts. ${robot2Name}(${builtRobot2.name})'s Health: ${builtRobot2.healthPoints} pts. </p>`);
-          } else {
-              $output.prepend(`<p class="player2">${builtRobot2.name} did not pick the right door.</p>`);
-            }
-          }
-        }
+      if(oneInThree === 1) {
+      $output.prepend(`<p class = "player2">${builtRobot2.name}Picked the right door. ${builtRobot2.name} did ${diceRoll} points worth of damage.</p>`);
+      //takes away health from robot2
+
+      builtRobot1.healthPoints -= diceRoll;
+
+      $('#healthDiv').html(`<p class="healthUpdate">${robot1Name}(${builtRobot1.name})'s Health: ${builtRobot1.healthPoints} pts. ${robot2Name}(${builtRobot2.name})'s Health: ${builtRobot2.healthPoints} pts. </p>`);
+      } else {
+        $output.prepend(`<p class="player2">${builtRobot2.name} did not pick the right door.</p>`);
       }
+    }
+  }
+}
 }
 
 
@@ -407,44 +319,36 @@ let ATV = robotTypesArray[2];
 function Drone01() {
     this.name = "Drone01";
     this.attack = "Flamethrower";
-    // this.image = ""
 }
 Drone01.prototype = new Drone(50, 80, 4, 8);
-
-console.log("drone01", Drone01)
 
 function Drone02() {
     this.name = "Drone02";
     this.attack = "Lasers";
-    // this.image = ""
 }
 Drone02.prototype = new Drone(80, 90, 2, 3);
 
 function Bipedal01() {
     this.name = "Bipedal01";
     this.attack = "Missiles";
-    // this.image = ""
 }
 Bipedal01.prototype = new Bipedal(30, 80, 3, 7);
 
 function Bipedal02() {
     this.name = "Bipedal02";
     this.attack = "Spinning Saw";
-    // this.image = ""
 }
 Bipedal02.prototype = new Bipedal(40, 60, 8, 9);
 
 function ATV01() {
     this.name = "ATV01";
     this.attack = "Banana Peels";
-    // this.image = ""
 }
 ATV01.prototype = new ATV(30, 80, 3, 7);
 
 function ATV02() {
     this.name = "ATV02";
     this.attack = "Acid Showers";
-    // this.image = ""
 }
 ATV02.prototype = new ATV(40, 60, 8, 9);
 

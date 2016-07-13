@@ -10,44 +10,36 @@ let ATV = robotTypesArray[2];
 function Drone01() {
     this.name = "Drone01";
     this.attack = "Flamethrower";
-    // this.image = ""
 }
 Drone01.prototype = new Drone(50, 80, 4, 8);
-
-console.log("drone01", Drone01)
 
 function Drone02() {
     this.name = "Drone02";
     this.attack = "Lasers";
-    // this.image = ""
 }
 Drone02.prototype = new Drone(80, 90, 2, 3);
 
 function Bipedal01() {
     this.name = "Bipedal01";
     this.attack = "Missiles";
-    // this.image = ""
 }
 Bipedal01.prototype = new Bipedal(30, 80, 3, 7);
 
 function Bipedal02() {
     this.name = "Bipedal02";
     this.attack = "Spinning Saw";
-    // this.image = ""
 }
 Bipedal02.prototype = new Bipedal(40, 60, 8, 9);
 
 function ATV01() {
     this.name = "ATV01";
     this.attack = "Banana Peels";
-    // this.image = ""
 }
 ATV01.prototype = new ATV(30, 80, 3, 7);
 
 function ATV02() {
     this.name = "ATV02";
     this.attack = "Acid Showers";
-    // this.image = ""
 }
 ATV02.prototype = new ATV(40, 60, 8, 9);
 
