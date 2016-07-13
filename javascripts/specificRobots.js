@@ -2,19 +2,9 @@
 
 let robotTypesArray = require("./robotTypes").robotTypesArray;
 
-//
 let Drone = robotTypesArray[0];
-
 let Bipedal = robotTypesArray[1];
-
 let ATV = robotTypesArray[2];
-
-//
-
-// console.log("array", robotTypesArray);
-// console.log("Drone", robotTypesArray[0]);
-// console.log("Bipedal", robotTypesArray[1]);
-// console.log("ATV", robotTypesArray[2]);
 
 //specific robots//
 function Drone01() {
@@ -67,15 +57,6 @@ let bipedal01 = new Bipedal01();
 let bipedal02 = new Bipedal02();
 let atv01 = new ATV01();
 let atv02 = new ATV02();
-
-console.log("drone01 !!!", drone01);
-
-// console.log("Drone01", Drone01);
-// console.log("Drone02", Drone02);
-// console.log("Bipedal01", Bipedal01);
-// console.log("Bipedal02", Bipedal02);
-// console.log("ATV01", ATV01);
-// console.log("ATV01", ATV02);
 
 let specificRobotArray = [drone01, drone02, bipedal01, bipedal02, atv01, atv02];
 

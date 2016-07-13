@@ -2,14 +2,11 @@
 
 var RNG = require("./randomNumbers.js");
 
-
 //base robot function
 function Robot () {
   this.name = null;
   this.health = "TEST";
 }
-
-//
 
 function Drone(minHealthPoints, maxHealthPoints, minDamagePoints, maxDamagePoints) {
   this.name = "Drone";
