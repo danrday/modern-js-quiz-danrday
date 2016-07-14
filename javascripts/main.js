@@ -1,9 +1,9 @@
 "use strict";
 
-let robotFight = require("./robotFight").robotFight;
-let $ = require('jquery'); 
-let specificRobots = require("./specificRobots");
-let robotTypes = require("./robotTypes");
+const robotFight = require("./robotFight").robotFight;
+const $ = require('jquery'); 
+const specificRobots = require("./specificRobots");
+const robotTypes = require("./robotTypes");
 
 let $robot1 = $("#robot1");
 let $robot2 = $("#robot2");
