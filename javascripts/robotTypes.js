@@ -1,45 +1,50 @@
 "use strict";
 
-var RNG = require("./randomNumbers.js");
+let RNG = require("./randomNumbers.js");
 
 //base robot function
 function Robot () {
   this.name = null;
-  this.health = "TEST";
+  this.minPoints = null;
+  this.maxPoints = null;
+  this.minDamage = null;
+  this.maxDamage = null;
+  this.evasionChance = RNG.randomRange(0, 10);
+  this.healthPoints = null;
 }
 
-function Drone(minHealthPoints, maxHealthPoints, minDamagePoints, maxDamagePoints) {
+function Drone() {
   this.name = "Drone";
-  this.minPoints = minHealthPoints;
-  this.maxPoints = maxHealthPoints;
-  this.minDamage = minDamagePoints;
-  this.maxDamage = maxDamagePoints;
-  this.evasionChance = RNG.randomRange(0, 10);
-  this.healthPoints = RNG.randomRange(minHealthPoints, maxHealthPoints);
+  // this.minPoints = minHealthPoints;
+  // this.maxPoints = maxHealthPoints;
+  // this.minDamage = minDamagePoints;
+  // this.maxDamage = maxDamagePoints;
+  // this.evasionChance = RNG.randomRange(0, 10);
+  // this.healthPoints = RNG.randomRange(minHealthPoints, maxHealthPoints);
 }
 
 Drone.prototype = new Robot();
 
-function Bipedal(minHealthPoints, maxHealthPoints, minDamagePoints, maxDamagePoints) {
+function Bipedal() {
   this.name = "Bipedal";
-  this.minPoints = minHealthPoints;
-  this.maxPoints = maxHealthPoints;
-  this.minDamage = minDamagePoints;
-  this.maxDamage = maxDamagePoints;
-  this.evasionChance = RNG.randomRange(0, 10);
-  this.healthPoints = RNG.randomRange(minHealthPoints, maxHealthPoints);
+  // this.minPoints = minHealthPoints;
+  // this.maxPoints = maxHealthPoints;
+  // this.minDamage = minDamagePoints;
+  // this.maxDamage = maxDamagePoints;
+  // this.evasionChance = RNG.randomRange(0, 10);
+  // this.healthPoints = RNG.randomRange(minHealthPoints, maxHealthPoints);
 }
 
 Drone.prototype = new Robot();
 
-function ATV(minHealthPoints, maxHealthPoints, minDamagePoints, maxDamagePoints) {
+function ATV() {
   this.name = "ATV";
-  this.minPoints = minHealthPoints;
-  this.maxPoints = maxHealthPoints;
-  this.minDamage = minDamagePoints;
-  this.maxDamage = maxDamagePoints;
-  this.evasionChance = RNG.randomRange(0, 10);
-  this.healthPoints = RNG.randomRange(minHealthPoints, maxHealthPoints);
+  // this.minPoints = minHealthPoints;
+  // this.maxPoints = maxHealthPoints;
+  // this.minDamage = minDamagePoints;
+  // this.maxDamage = maxDamagePoints;
+  // this.evasionChance = RNG.randomRange(0, 10);
+  // this.healthPoints = RNG.randomRange(minHealthPoints, maxHealthPoints);
 }
 
 Drone.prototype = new Robot();

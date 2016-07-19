@@ -86,9 +86,7 @@ let $door2 = $("#door2");
 let $door3 = $("#door3"); 
 
 
-
-
-function robotFight(robot1Array, robot2Array) {
+let robotFight = (robot1Array, robot2Array) => {
   let robot1Name = robot1Array[0];
   let robot2Name = robot2Array[0];
   let robot1Type = robot1Array[1];
@@ -114,10 +112,7 @@ function robotFight(robot1Array, robot2Array) {
 
   $("#output").append(`<div class="healthUpdate">${robot1Name} Damage Chance: ${builtRobot1.minDamage} pts / ${builtRobot1.maxDamage} pts ---- ${robot2Name} Damage Chance: ${builtRobot2.minDamage} pts / ${builtRobot2.maxDamage} pts</div>`);
     
-  var intervalID = window.setInterval(myCallback, 8000);
-  var timerInterval = window.setInterval(myTimer, 800);
-
-  function myTimer() {
+   let myTimer = () => {
     if (secondCounter === 0) {
       secondCounter = 10;
     }
@@ -139,61 +134,9 @@ function robotFight(robot1Array, robot2Array) {
     }
   }
 
-  function determineWinner() {
-    if (builtRobot2.healthPoints <= 0 || builtRobot1.healthPoints <= 0) {
-    window.clearInterval(intervalID);
-    window.clearInterval(timerInterval);
-    $("#timer").html("");
-    $("#output").prepend("GAME OVER!");
-
-    $('#healthDiv').html(`<p class="healthUpdate">${robot1Name}(${builtRobot1.name})'s Health: ${builtRobot1.healthPoints} pts. ${robot2Name}(${builtRobot2.name})'s Health: ${builtRobot2.healthPoints} pts. </p>`);
-
-    if (builtRobot1.healthPoints <= 0) {
-       $("#output").prepend(`<div id="winner">${builtRobot2.name} WON with its ${builtRobot2.attack}!</div>`);
-    } else {
-       $("#output").prepend(`<div id="winner">${builtRobot1.name} WON with its ${builtRobot1.attack}!</div>`);
-      }
-    }
-  }
-
-  function extraDamage() {
-  $("#pickDoor").hide();
-  let $output = $("#output");
-
-  if (oneInThree === doorClicked) {
-
-  $output.prepend(`<div class="player1">`);
-  $output.prepend(`<p class="player1">You picked right! You did an extra damage of ${diceRoll} points.</p>`);
-  //takes away health from robot2
-  builtRobot2.healthPoints -= diceRoll;
-  determineWinner();
-
-   $('#healthDiv').html(`<p class="healthUpdate">${robot1Name}(${builtRobot1.name})'s Health: ${builtRobot1.healthPoints} pts. ${robot2Name}(${builtRobot2.name})'s Health: ${builtRobot2.healthPoints} pts. </p>`);
-
-  } else {
-    doorClicked = null;
-    $output.prepend(`<div class="player1">`);
-    $output.prepend(`<p>Sorry, the right door # was ${oneInThree}</p>`);
-    $output.prepend(`</div>`);
-    
-  }
-}
-
-$door1.click(function() {
-    doorClicked = 1;
-    extraDamage(diceRoll);
-  });
-$door2.click(function() {
-    doorClicked = 2;
-    extraDamage(diceRoll);
-  });
-$door3.click(function() {
-    doorClicked = 3;
-    extraDamage(diceRoll);
-  });
 
 
-  function myCallback() {
+  let myCallback = () => {
   
     secondCounter = 10;
 
@@ -257,6 +200,67 @@ $door3.click(function() {
     }
     
   }
+
+
+  let intervalID = window.setInterval(myCallback, 8000);
+  let timerInterval = window.setInterval(myTimer, 800);
+
+ 
+
+  let determineWinner = () => {
+    if (builtRobot2.healthPoints <= 0 || builtRobot1.healthPoints <= 0) {
+    window.clearInterval(intervalID);
+    window.clearInterval(timerInterval);
+    $("#timer").html("");
+    $("#output").prepend("GAME OVER!");
+
+    $('#healthDiv').html(`<p class="healthUpdate">${robot1Name}(${builtRobot1.name})'s Health: ${builtRobot1.healthPoints} pts. ${robot2Name}(${builtRobot2.name})'s Health: ${builtRobot2.healthPoints} pts. </p>`);
+
+    if (builtRobot1.healthPoints <= 0) {
+       $("#output").prepend(`<div id="winner">${builtRobot2.name} WON with its ${builtRobot2.attack}!</div>`);
+    } else {
+       $("#output").prepend(`<div id="winner">${builtRobot1.name} WON with its ${builtRobot1.attack}!</div>`);
+      }
+    }
+  }
+
+  let extraDamage = () => {
+  $("#pickDoor").hide();
+  let $output = $("#output");
+
+  if (oneInThree === doorClicked) {
+
+  $output.prepend(`<div class="player1">`);
+  $output.prepend(`<p class="player1">You picked right! You did an extra damage of ${diceRoll} points.</p>`);
+  //takes away health from robot2
+  builtRobot2.healthPoints -= diceRoll;
+  determineWinner();
+
+   $('#healthDiv').html(`<p class="healthUpdate">${robot1Name}(${builtRobot1.name})'s Health: ${builtRobot1.healthPoints} pts. ${robot2Name}(${builtRobot2.name})'s Health: ${builtRobot2.healthPoints} pts. </p>`);
+
+  } else {
+    doorClicked = null;
+    $output.prepend(`<div class="player1">`);
+    $output.prepend(`<p>Sorry, the right door # was ${oneInThree}</p>`);
+    $output.prepend(`</div>`);
+    
+  }
+}
+
+$door1.click(function() {
+    doorClicked = 1;
+    extraDamage(diceRoll);
+  });
+$door2.click(function() {
+    doorClicked = 2;
+    extraDamage(diceRoll);
+  });
+$door3.click(function() {
+    doorClicked = 3;
+    extraDamage(diceRoll);
+  });
+
+
 }
 
 
@@ -264,46 +268,51 @@ module.exports = {robotFight};
 },{"./randomNumbers.js":2,"./specificRobots":5,"jquery":6}],4:[function(require,module,exports){
 "use strict";
 
-var RNG = require("./randomNumbers.js");
+let RNG = require("./randomNumbers.js");
 
 //base robot function
 function Robot () {
   this.name = null;
-  this.health = "TEST";
+  this.minPoints = null;
+  this.maxPoints = null;
+  this.minDamage = null;
+  this.maxDamage = null;
+  this.evasionChance = RNG.randomRange(0, 10);
+  this.healthPoints = null;
 }
 
-function Drone(minHealthPoints, maxHealthPoints, minDamagePoints, maxDamagePoints) {
+function Drone() {
   this.name = "Drone";
-  this.minPoints = minHealthPoints;
-  this.maxPoints = maxHealthPoints;
-  this.minDamage = minDamagePoints;
-  this.maxDamage = maxDamagePoints;
-  this.evasionChance = RNG.randomRange(0, 10);
-  this.healthPoints = RNG.randomRange(minHealthPoints, maxHealthPoints);
+  // this.minPoints = minHealthPoints;
+  // this.maxPoints = maxHealthPoints;
+  // this.minDamage = minDamagePoints;
+  // this.maxDamage = maxDamagePoints;
+  // this.evasionChance = RNG.randomRange(0, 10);
+  // this.healthPoints = RNG.randomRange(minHealthPoints, maxHealthPoints);
 }
 
 Drone.prototype = new Robot();
 
-function Bipedal(minHealthPoints, maxHealthPoints, minDamagePoints, maxDamagePoints) {
+function Bipedal() {
   this.name = "Bipedal";
-  this.minPoints = minHealthPoints;
-  this.maxPoints = maxHealthPoints;
-  this.minDamage = minDamagePoints;
-  this.maxDamage = maxDamagePoints;
-  this.evasionChance = RNG.randomRange(0, 10);
-  this.healthPoints = RNG.randomRange(minHealthPoints, maxHealthPoints);
+  // this.minPoints = minHealthPoints;
+  // this.maxPoints = maxHealthPoints;
+  // this.minDamage = minDamagePoints;
+  // this.maxDamage = maxDamagePoints;
+  // this.evasionChance = RNG.randomRange(0, 10);
+  // this.healthPoints = RNG.randomRange(minHealthPoints, maxHealthPoints);
 }
 
 Drone.prototype = new Robot();
 
-function ATV(minHealthPoints, maxHealthPoints, minDamagePoints, maxDamagePoints) {
+function ATV() {
   this.name = "ATV";
-  this.minPoints = minHealthPoints;
-  this.maxPoints = maxHealthPoints;
-  this.minDamage = minDamagePoints;
-  this.maxDamage = maxDamagePoints;
-  this.evasionChance = RNG.randomRange(0, 10);
-  this.healthPoints = RNG.randomRange(minHealthPoints, maxHealthPoints);
+  // this.minPoints = minHealthPoints;
+  // this.maxPoints = maxHealthPoints;
+  // this.minDamage = minDamagePoints;
+  // this.maxDamage = maxDamagePoints;
+  // this.evasionChance = RNG.randomRange(0, 10);
+  // this.healthPoints = RNG.randomRange(minHealthPoints, maxHealthPoints);
 }
 
 Drone.prototype = new Robot();
@@ -320,43 +329,75 @@ let robotTypesArray = require("./robotTypes").robotTypesArray;
 let Drone = robotTypesArray[0];
 let Bipedal = robotTypesArray[1];
 let ATV = robotTypesArray[2];
+let RNG = require("./randomNumbers.js");
+
 
 //specific robots//
 function Drone01() {
     this.name = "Drone01";
     this.attack = "Flamethrower";
+    this.minPoints = 50;
+    this.maxPoints = 80;
+    this.minDamage = 4;
+    this.maxDamage = 8;
+    this.healthPoints = RNG.randomRange(this.minPoints, this.maxPoints);
 }
-Drone01.prototype = new Drone(50, 80, 4, 8);
+Drone01.prototype = new Drone();
 
 function Drone02() {
     this.name = "Drone02";
     this.attack = "Lasers";
+    this.minPoints = 50;
+    this.maxPoints = 90;
+    this.minDamage = 2;
+    this.maxDamage = 3;
+    this.healthPoints = RNG.randomRange(this.minPoints, this.maxPoints);
 }
-Drone02.prototype = new Drone(80, 90, 2, 3);
+Drone02.prototype = new Drone();
 
 function Bipedal01() {
     this.name = "Bipedal01";
     this.attack = "Missiles";
+    this.minPoints = 30;
+    this.maxPoints = 80;
+    this.minDamage = 3;
+    this.maxDamage = 7;
+    this.healthPoints = RNG.randomRange(this.minPoints, this.maxPoints);
 }
-Bipedal01.prototype = new Bipedal(30, 80, 3, 7);
+Bipedal01.prototype = new Bipedal();
 
 function Bipedal02() {
     this.name = "Bipedal02";
     this.attack = "Spinning Saw";
+    this.minPoints = 40;
+    this.maxPoints = 60;
+    this.minDamage = 8;
+    this.maxDamage = 9;
+    this.healthPoints = RNG.randomRange(this.minPoints, this.maxPoints);
 }
-Bipedal02.prototype = new Bipedal(40, 60, 8, 9);
+Bipedal02.prototype = new Bipedal();
 
 function ATV01() {
     this.name = "ATV01";
     this.attack = "Banana Peels";
+    this.minPoints = 30;
+    this.maxPoints = 80;
+    this.minDamage = 3;
+    this.maxDamage = 7;
+    this.healthPoints = RNG.randomRange(this.minPoints, this.maxPoints);
 }
-ATV01.prototype = new ATV(30, 80, 3, 7);
+ATV01.prototype = new ATV();
 
 function ATV02() {
     this.name = "ATV02";
     this.attack = "Acid Showers";
+    this.minPoints = 40;
+    this.maxPoints = 60;
+    this.minDamage = 8;
+    this.maxDamage = 9;
+    this.healthPoints = RNG.randomRange(this.minPoints, this.maxPoints);
 }
-ATV02.prototype = new ATV(40, 60, 8, 9);
+ATV02.prototype = new ATV();
 
 let drone01 = new Drone01();
 let drone02 = new Drone02();
@@ -371,7 +412,7 @@ module.exports = {specificRobotArray};
 
 
 
-},{"./robotTypes":4}],6:[function(require,module,exports){
+},{"./randomNumbers.js":2,"./robotTypes":4}],6:[function(require,module,exports){
 /*eslint-disable no-unused-vars*/
 /*!
  * jQuery JavaScript Library v3.1.0

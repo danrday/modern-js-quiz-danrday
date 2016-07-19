@@ -21,9 +21,7 @@ let $door2 = $("#door2");
 let $door3 = $("#door3"); 
 
 
-
-
-function robotFight(robot1Array, robot2Array) {
+let robotFight = (robot1Array, robot2Array) => {
   let robot1Name = robot1Array[0];
   let robot2Name = robot2Array[0];
   let robot1Type = robot1Array[1];
@@ -49,10 +47,7 @@ function robotFight(robot1Array, robot2Array) {
 
   $("#output").append(`<div class="healthUpdate">${robot1Name} Damage Chance: ${builtRobot1.minDamage} pts / ${builtRobot1.maxDamage} pts ---- ${robot2Name} Damage Chance: ${builtRobot2.minDamage} pts / ${builtRobot2.maxDamage} pts</div>`);
     
-  var intervalID = window.setInterval(myCallback, 8000);
-  var timerInterval = window.setInterval(myTimer, 800);
-
-  function myTimer() {
+   let myTimer = () => {
     if (secondCounter === 0) {
       secondCounter = 10;
     }
@@ -74,61 +69,9 @@ function robotFight(robot1Array, robot2Array) {
     }
   }
 
-  function determineWinner() {
-    if (builtRobot2.healthPoints <= 0 || builtRobot1.healthPoints <= 0) {
-    window.clearInterval(intervalID);
-    window.clearInterval(timerInterval);
-    $("#timer").html("");
-    $("#output").prepend("GAME OVER!");
-
-    $('#healthDiv').html(`<p class="healthUpdate">${robot1Name}(${builtRobot1.name})'s Health: ${builtRobot1.healthPoints} pts. ${robot2Name}(${builtRobot2.name})'s Health: ${builtRobot2.healthPoints} pts. </p>`);
-
-    if (builtRobot1.healthPoints <= 0) {
-       $("#output").prepend(`<div id="winner">${builtRobot2.name} WON with its ${builtRobot2.attack}!</div>`);
-    } else {
-       $("#output").prepend(`<div id="winner">${builtRobot1.name} WON with its ${builtRobot1.attack}!</div>`);
-      }
-    }
-  }
-
-  function extraDamage() {
-  $("#pickDoor").hide();
-  let $output = $("#output");
-
-  if (oneInThree === doorClicked) {
-
-  $output.prepend(`<div class="player1">`);
-  $output.prepend(`<p class="player1">You picked right! You did an extra damage of ${diceRoll} points.</p>`);
-  //takes away health from robot2
-  builtRobot2.healthPoints -= diceRoll;
-  determineWinner();
-
-   $('#healthDiv').html(`<p class="healthUpdate">${robot1Name}(${builtRobot1.name})'s Health: ${builtRobot1.healthPoints} pts. ${robot2Name}(${builtRobot2.name})'s Health: ${builtRobot2.healthPoints} pts. </p>`);
-
-  } else {
-    doorClicked = null;
-    $output.prepend(`<div class="player1">`);
-    $output.prepend(`<p>Sorry, the right door # was ${oneInThree}</p>`);
-    $output.prepend(`</div>`);
-    
-  }
-}
-
-$door1.click(function() {
-    doorClicked = 1;
-    extraDamage(diceRoll);
-  });
-$door2.click(function() {
-    doorClicked = 2;
-    extraDamage(diceRoll);
-  });
-$door3.click(function() {
-    doorClicked = 3;
-    extraDamage(diceRoll);
-  });
 
 
-  function myCallback() {
+  let myCallback = () => {
   
     secondCounter = 10;
 
@@ -192,6 +135,67 @@ $door3.click(function() {
     }
     
   }
+
+
+  let intervalID = window.setInterval(myCallback, 8000);
+  let timerInterval = window.setInterval(myTimer, 800);
+
+ 
+
+  let determineWinner = () => {
+    if (builtRobot2.healthPoints <= 0 || builtRobot1.healthPoints <= 0) {
+    window.clearInterval(intervalID);
+    window.clearInterval(timerInterval);
+    $("#timer").html("");
+    $("#output").prepend("GAME OVER!");
+
+    $('#healthDiv').html(`<p class="healthUpdate">${robot1Name}(${builtRobot1.name})'s Health: ${builtRobot1.healthPoints} pts. ${robot2Name}(${builtRobot2.name})'s Health: ${builtRobot2.healthPoints} pts. </p>`);
+
+    if (builtRobot1.healthPoints <= 0) {
+       $("#output").prepend(`<div id="winner">${builtRobot2.name} WON with its ${builtRobot2.attack}!</div>`);
+    } else {
+       $("#output").prepend(`<div id="winner">${builtRobot1.name} WON with its ${builtRobot1.attack}!</div>`);
+      }
+    }
+  }
+
+  let extraDamage = () => {
+  $("#pickDoor").hide();
+  let $output = $("#output");
+
+  if (oneInThree === doorClicked) {
+
+  $output.prepend(`<div class="player1">`);
+  $output.prepend(`<p class="player1">You picked right! You did an extra damage of ${diceRoll} points.</p>`);
+  //takes away health from robot2
+  builtRobot2.healthPoints -= diceRoll;
+  determineWinner();
+
+   $('#healthDiv').html(`<p class="healthUpdate">${robot1Name}(${builtRobot1.name})'s Health: ${builtRobot1.healthPoints} pts. ${robot2Name}(${builtRobot2.name})'s Health: ${builtRobot2.healthPoints} pts. </p>`);
+
+  } else {
+    doorClicked = null;
+    $output.prepend(`<div class="player1">`);
+    $output.prepend(`<p>Sorry, the right door # was ${oneInThree}</p>`);
+    $output.prepend(`</div>`);
+    
+  }
+}
+
+$door1.click(function() {
+    doorClicked = 1;
+    extraDamage(diceRoll);
+  });
+$door2.click(function() {
+    doorClicked = 2;
+    extraDamage(diceRoll);
+  });
+$door3.click(function() {
+    doorClicked = 3;
+    extraDamage(diceRoll);
+  });
+
+
 }
 
 

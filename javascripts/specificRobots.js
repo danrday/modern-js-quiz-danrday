@@ -5,43 +5,75 @@ let robotTypesArray = require("./robotTypes").robotTypesArray;
 let Drone = robotTypesArray[0];
 let Bipedal = robotTypesArray[1];
 let ATV = robotTypesArray[2];
+let RNG = require("./randomNumbers.js");
+
 
 //specific robots//
 function Drone01() {
     this.name = "Drone01";
     this.attack = "Flamethrower";
+    this.minPoints = 50;
+    this.maxPoints = 80;
+    this.minDamage = 4;
+    this.maxDamage = 8;
+    this.healthPoints = RNG.randomRange(this.minPoints, this.maxPoints);
 }
-Drone01.prototype = new Drone(50, 80, 4, 8);
+Drone01.prototype = new Drone();
 
 function Drone02() {
     this.name = "Drone02";
     this.attack = "Lasers";
+    this.minPoints = 50;
+    this.maxPoints = 90;
+    this.minDamage = 2;
+    this.maxDamage = 3;
+    this.healthPoints = RNG.randomRange(this.minPoints, this.maxPoints);
 }
-Drone02.prototype = new Drone(80, 90, 2, 3);
+Drone02.prototype = new Drone();
 
 function Bipedal01() {
     this.name = "Bipedal01";
     this.attack = "Missiles";
+    this.minPoints = 30;
+    this.maxPoints = 80;
+    this.minDamage = 3;
+    this.maxDamage = 7;
+    this.healthPoints = RNG.randomRange(this.minPoints, this.maxPoints);
 }
-Bipedal01.prototype = new Bipedal(30, 80, 3, 7);
+Bipedal01.prototype = new Bipedal();
 
 function Bipedal02() {
     this.name = "Bipedal02";
     this.attack = "Spinning Saw";
+    this.minPoints = 40;
+    this.maxPoints = 60;
+    this.minDamage = 8;
+    this.maxDamage = 9;
+    this.healthPoints = RNG.randomRange(this.minPoints, this.maxPoints);
 }
-Bipedal02.prototype = new Bipedal(40, 60, 8, 9);
+Bipedal02.prototype = new Bipedal();
 
 function ATV01() {
     this.name = "ATV01";
     this.attack = "Banana Peels";
+    this.minPoints = 30;
+    this.maxPoints = 80;
+    this.minDamage = 3;
+    this.maxDamage = 7;
+    this.healthPoints = RNG.randomRange(this.minPoints, this.maxPoints);
 }
-ATV01.prototype = new ATV(30, 80, 3, 7);
+ATV01.prototype = new ATV();
 
 function ATV02() {
     this.name = "ATV02";
     this.attack = "Acid Showers";
+    this.minPoints = 40;
+    this.maxPoints = 60;
+    this.minDamage = 8;
+    this.maxDamage = 9;
+    this.healthPoints = RNG.randomRange(this.minPoints, this.maxPoints);
 }
-ATV02.prototype = new ATV(40, 60, 8, 9);
+ATV02.prototype = new ATV();
 
 let drone01 = new Drone01();
 let drone02 = new Drone02();
